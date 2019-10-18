@@ -38,3 +38,4 @@ done
 rm $tempFileName.raw-*
 convert -delay 3 -dispose Background +page $tempFileName.* -colors 128 -loop 0 $fileOutput
 rm $tempFileName.*
+
