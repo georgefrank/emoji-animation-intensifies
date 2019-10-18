@@ -11,7 +11,19 @@ tempFileName=intensifier-temp
 jitter=4
 jitterRange=$((($jitter*2)+1))
 
-for i in {1..10}
+if [[ $fileToIntensify == *.gif ]];
+then
+  convert $fileToIntensify $tempFileName.raw.png
+else
+  for i in {0..9}
+  do
+    cp $fileToIntensify $tempFileName.raw-$i.png
+  done
+fi
+
+rawPartCount=$(ls -dq $tempFileName.raw-* | wc -l)
+
+for ((i=0;i<rawPartCount;i++))
 do
   ecks=$(($RANDOM%$jitterRange-$jitter))
   why=$(($RANDOM%$jitterRange-$jitter))
@@ -20,9 +32,9 @@ do
   if [ $why -ge 0 ]; then why="+"$why; fi;
 
   echo $ecks$why
-  convert -page $ecks$why $fileToIntensify -background none -flatten $tempFileName.$i
+  convert -page $ecks$why $tempFileName.raw-$i.png -background none -flatten $tempFileName.$(($i + 1))
 done
 
+rm $tempFileName.raw-*
 convert -delay 3 -dispose Background +page $tempFileName.* -colors 128 -loop 0 $fileOutput
-
 rm $tempFileName.*
