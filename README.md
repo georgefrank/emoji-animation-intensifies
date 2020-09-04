@@ -23,3 +23,7 @@ For the above example, the command used was `./intensify.sh heart.png heart-inte
 ## Requirements
 
 - 'imagemagick' is installed and available in the PATH (on a mac, use 'brew install imagemagick')
+
+## Update
+
+If you download a newer version of ImageMagick, you will likely encounter "Invalid Parameter" issues. This is because the executable is now called `magick.exe` and not `convert.exe`. If you update the command in the shell script locally, this will work without issue.
